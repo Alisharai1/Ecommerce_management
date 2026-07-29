@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db-migrate-up": "db-migrate up",
-    "db-migrate-down": "db-migrate down"
+    "db-migrate-down": "db-migrate down",
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +16,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^26.1.2",
-    "typescript": "^7.0.2"
+    "typescript": "5.9"
   },
   "dependencies": {
     "@types/express": "^5.0.6",

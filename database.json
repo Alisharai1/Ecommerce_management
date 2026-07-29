@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "host": "localhost",
+        "user": "User1",
+        "password": "july",
+        "database": "ecommerce",
+        "driver": "pg"
+    }
+}

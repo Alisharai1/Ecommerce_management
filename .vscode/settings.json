@@ -1,15 +1,3 @@
 {
-    "sqltools.connections": [
-        {
-            "ssh": "Disabled",
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "askForPassword": true,
-            "driver": "PostgreSQL",
-            "name": "Ecommerce_management",
-            "database": "ecommerce",
-            "username": "user1"
-        }
-    ]
+    "sqltools.connections": []
 }

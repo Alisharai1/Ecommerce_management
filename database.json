@@ -1,7 +1,7 @@
 {
     "dev": {
         "driver": "pg",
-        "user": "user1",
+        "user": "User1",
         "password": "july",
         "host": "localhost",
         "database": "ecommerce",

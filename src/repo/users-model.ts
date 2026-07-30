@@ -1,14 +1,14 @@
 import { DataTypes, Model } from 'sequelize';
-import { db } from './db'
+import { db } from '../index'
 
-class User extends Model { }
+export class UserDb extends Model { }
 
-User.init(
+UserDb.init(
     {
         id: {
             type: DataTypes.UUIDV4,
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
         },
         firstName: {
             type: DataTypes.STRING(255),

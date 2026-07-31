@@ -1,4 +1,4 @@
-import { object, string } from 'yup'
+import { number, object, string } from 'yup'
 
 export const AddUserRequestBody = object({
     firstName: string().required(),
@@ -6,4 +6,13 @@ export const AddUserRequestBody = object({
     email: string().required().email(),
     password: string().required().min(8).max(50),
     phone: string()
+})
+
+export const GetUsersSchema = object({
+    limit: number().positive().integer().default(5),
+    page: number().positive().integer().default(1)
+})
+
+export const GetUserByIdParamsSchema = object({
+    id: string().uuid().required()
 })

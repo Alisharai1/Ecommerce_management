@@ -2,12 +2,27 @@ import { User } from "src/models";
 import { IUserService } from "./user-service-interface";
 import { IUserRepo } from "src/repo/user-repo-interface";
 import { v4 } from "uuid";
-import { DuplicateUserException } from "../exception/dublicate-user";
+import { DuplicateUserException } from "../exception/duplicate-user";
+import { UserNotFoundException } from "../exception/user-not-found";
 
 export class UserService implements IUserService {
     private readonly userRepo: IUserRepo
     constructor(userRepo: IUserRepo) {
         this.userRepo = userRepo;
+    }
+    async getUserById(id: string): Promise<User> {
+        const user = await this.userRepo.getUserById(id)
+        if (!user) {
+            throw new UserNotFoundException("user not found")
+        }
+        return user
+    }
+
+
+    async getUsers(input: { limit: number; page: number; }): Promise<User[]> {
+        const offset = input.limit * (input.page - 1)
+
+        return await this.userRepo.getAllUsers({ limit: input.limit || 5, offset })
     }
 
     async createUser(input: {

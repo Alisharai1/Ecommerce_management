@@ -6,4 +6,8 @@ export interface IUserRepo {
 
     getUserByEmail(email: string): Promise<User | null>
 
+    getAllUsers(input: { limit: number, offset: number }): Promise<User[]>
+
+    getUserById(id:string):Promise<User | null>
+
 }

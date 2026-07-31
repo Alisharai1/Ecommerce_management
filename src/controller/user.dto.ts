@@ -1,6 +1,6 @@
 import { object, string } from 'yup'
 
-export const addUserBodySchema = object({
+export const AddUserRequestBody = object({
     firstName: string().required(),
     lastName: string().required(),
     email: string().required().email(),

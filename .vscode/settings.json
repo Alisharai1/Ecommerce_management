@@ -10,5 +10,8 @@
             "database": "ecommerce",
             "username": "User1"
         }
+    ],
+    "cSpell.words": [
+        "userexist"
     ]
 }

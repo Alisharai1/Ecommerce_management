@@ -1,17 +1,20 @@
 import express from 'express'
 import { Database } from './repo/db'
+export const db = Database.getDbInstance({ dbName: "ecommerce", userName: "User1", password: "july", host: "localhost" });
+import { bootstrap } from './bootstrap'
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 
-export const db = Database.getDbInstance({ dbName: "ecommerce", userName: "User1", password: "july", host: "localhost" })
 
 app.use(express.json())
 
+
 app.get('/liveCheck', (_req, res) => {
-    res.send(200).json()
+    res.status(200).json({ status: "up" })
 })
 
+bootstrap(app)
 
 app.listen(PORT, async () => {
     await Database.checkConnection(db)

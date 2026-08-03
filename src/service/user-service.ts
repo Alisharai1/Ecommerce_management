@@ -4,6 +4,7 @@ import { IUserRepo } from "src/repo/user-repo-interface";
 import { v4 } from "uuid";
 import { DuplicateUserException } from "../exception/duplicate-user";
 import { UserNotFoundException } from "../exception/user-not-found";
+import bcryptjs
 
 export class UserService implements IUserService {
     private readonly userRepo: IUserRepo

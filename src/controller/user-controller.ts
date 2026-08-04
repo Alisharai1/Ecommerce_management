@@ -1,9 +1,10 @@
-import { AddUserRequestBody, DeleteUserByParamsSchema, GetUserByIdParamsSchema, GetUsersSchema, UpdateUserByParamsSchema } from './user.dto'
+import { AddUserRequestBody, DeleteUserByParamsSchema, GetUserByIdParamsSchema, GetUsersSchema, LoginUserBodySchema, UpdateUserByParamsSchema } from './user.dto'
 import { IUserService } from "../service/user-service-interface";
 import { DuplicateUserException } from '../exception/duplicate-user';
 import { ValidationError } from 'yup';
 import { Request, Response, Router } from "express";
 import { UserNotFoundException } from '../exception/user-not-found';
+import { InvalidCredentialException } from '../exception/invalid-cred';
 
 
 export class UserController {
@@ -22,6 +23,7 @@ export class UserController {
         router.get('/:id', controller.getUser)
         router.delete('/:id', controller.deleteUser)
         router.put('/:id', controller.updateUser)
+        router.post('/login', controller.loginUser)
 
 
         return router
@@ -128,5 +130,28 @@ export class UserController {
                 res.status(500).json("internal server error")
             }
         }
+    }
+
+    private loginUser = async (request: Request, res: Response) => {
+        try {
+            const input = LoginUserBodySchema.validateSync(request.body, {
+                abortEarly: false,
+                strict: true
+            })
+            const output = await this.userService.login(input)
+            res.status(200).json(output)
+
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                res.status(400).json(error.errors)
+            }
+            else if (error instanceof InvalidCredentialException) {
+                res.status(404).json({ message: error.message })
+            } else {
+                res.status(500).json("internal server error")
+            }
+
+        }
+
     }
 }

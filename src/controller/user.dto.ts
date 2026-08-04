@@ -27,3 +27,8 @@ export const UpdateUserByParamsSchema = object({
     firstName: string().required(),
     lastName: string().required(),
 })
+
+export const LoginUserBodySchema = object({
+    email: string().required().email(),
+    password: string().required().min(8).max(50),
+})

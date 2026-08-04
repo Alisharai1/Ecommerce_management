@@ -10,6 +10,23 @@ export class UserService implements IUserService {
     constructor(userRepo: IUserRepo) {
         this.userRepo = userRepo;
     }
+    async updateUser(input: { id: string, firstName: string, lastName: string }): Promise<User | null> {
+
+        const existingUser = await this.userRepo.getUserById(input.id)
+        if (!existingUser) {
+            throw new UserNotFoundException("user not found")
+        }
+        return await this.userRepo.updateUser(input)
+    }
+
+    async deleteUser(id: string): Promise<boolean> {
+        const user = await this.userRepo.getUserById(id)
+        if (!user) {
+            throw new UserNotFoundException("user not found")
+        }
+        return await this.userRepo.deleteUser(id)
+    }
+
     async getUserById(id: string): Promise<User> {
         const user = await this.userRepo.getUserById(id)
         if (!user) {
@@ -17,7 +34,6 @@ export class UserService implements IUserService {
         }
         return user
     }
-
 
     async getUsers(input: { limit: number; page: number; }): Promise<User[]> {
         const offset = input.limit * (input.page - 1)

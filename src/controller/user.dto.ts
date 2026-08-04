@@ -16,3 +16,14 @@ export const GetUsersSchema = object({
 export const GetUserByIdParamsSchema = object({
     id: string().uuid().required()
 })
+
+export const DeleteUserByParamsSchema = object({
+    id: string().uuid().required()
+
+})
+
+export const UpdateUserByParamsSchema = object({
+    id: string().uuid().required(),
+    firstName: string().required(),
+    lastName: string().required(),
+})

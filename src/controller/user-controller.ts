@@ -1,4 +1,4 @@
-import { AddUserRequestBody, GetUserByIdParamsSchema, GetUsersSchema } from './user.dto'
+import { AddUserRequestBody, DeleteUserByParamsSchema, GetUserByIdParamsSchema, GetUsersSchema, UpdateUserByParamsSchema } from './user.dto'
 import { IUserService } from "../service/user-service-interface";
 import { DuplicateUserException } from '../exception/duplicate-user';
 import { ValidationError } from 'yup';
@@ -20,6 +20,9 @@ export class UserController {
         router.post('/', controller.createUser)
         router.get('/', controller.getUsers)
         router.get('/:id', controller.getUser)
+        router.delete('/:id', controller.deleteUser)
+        router.put('/:id', controller.updateUser)
+
 
         return router
     }
@@ -70,6 +73,52 @@ export class UserController {
             const user = await this.userService.getUserById(input.id)
             res.status(200).json(user)
         } catch (error) {
+            if (error instanceof ValidationError) {
+                res.status(400).json(error.errors)
+            }
+            else if (error instanceof UserNotFoundException) {
+                res.status(404).json({ message: "user not found" })
+            } else {
+                res.status(500).json("internal server error")
+            }
+        }
+    }
+
+    private deleteUser = async (request: Request, res: Response) => {
+        try {
+            const input = DeleteUserByParamsSchema.validateSync(request.params, {
+                abortEarly: false,
+                strict: true
+            })
+
+            await this.userService.deleteUser(input.id)
+            res.status(200).json({ message: "user deleted successfully" })
+        } catch (error) {
+            // console.log(error);
+
+            if (error instanceof ValidationError) {
+                res.status(400).json(error.errors)
+            }
+            else if (error instanceof UserNotFoundException) {
+                res.status(404).json({ message: "user not found" })
+            } else {
+                res.status(500).json("internal server error")
+            }
+        }
+    }
+
+    private updateUser = async (req: Request, res: Response) => {
+        try {
+            const input = UpdateUserByParamsSchema.validateSync({ ...req.body, ...req.params }, {
+                abortEarly: false,
+                strict: true
+            })
+            const updatedUser = await this.userService.updateUser(input)
+            console.log(input.id);
+
+            res.json(updatedUser).status(200);
+        } catch (error) {
+            console.log(error);
             if (error instanceof ValidationError) {
                 res.status(400).json(error.errors)
             }

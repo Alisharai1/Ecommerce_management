@@ -18,5 +18,13 @@ export interface IUserService {
 
     getUserById(id: string): Promise<User>
 
+    deleteUser(id: string): Promise<boolean>
+
+    updateUser(input: {
+        id: string,
+        firstName: string,
+        lastName: string
+    }): Promise<User | null>
+
     // getUserByEmail(email: string): Promise<User | null>
 }

@@ -8,6 +8,15 @@ export interface IUserRepo {
 
     getAllUsers(input: { limit: number, offset: number }): Promise<User[]>
 
-    getUserById(id:string):Promise<User | null>
+    getUserById(id: string): Promise<User | null>
+
+    deleteUser(id: string): Promise<boolean>
+
+    
+    updateUser(input: {
+        id: string,
+        firstName: string,
+        lastName: string
+    }): Promise<User | null>
 
 }

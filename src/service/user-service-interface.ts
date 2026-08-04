@@ -26,5 +26,10 @@ export interface IUserService {
         lastName: string
     }): Promise<User | null>
 
+    login(input: {
+        email: string,
+        password: string
+    }): Promise<{ token: string, userId: string }>
+
     // getUserByEmail(email: string): Promise<User | null>
 }

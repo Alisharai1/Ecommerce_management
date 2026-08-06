@@ -31,5 +31,7 @@ export interface IUserService {
         password: string
     }): Promise<{ token: string, userId: string }>
 
+    // forgotPassword()
+
     // getUserByEmail(email: string): Promise<User | null>
 }

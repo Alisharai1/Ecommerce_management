@@ -1,0 +1,2 @@
+ALTER TABLE Users DROP COLUMN otp;
+ALTER TABLE Users DROP COLUMN user_type;

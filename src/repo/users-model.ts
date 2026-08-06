@@ -36,17 +36,6 @@ UserDb.init(
             type: DataTypes.STRING(255),
             allowNull: true,
         },
-
-        otp: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            unique: true
-        },
-        userType: {
-            type: DataTypes.ENUM('admin', 'seller', 'buyer'),
-            allowNull: false
-
-        },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,

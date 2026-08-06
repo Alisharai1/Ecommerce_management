@@ -36,6 +36,20 @@ UserDb.init(
             type: DataTypes.STRING(255),
             allowNull: true,
         },
+        otp: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            unique: true
+        },
+        otp_expiry_time: {
+            type: DataTypes.TIME,
+            allowNull: true
+        },
+        userType: {
+            type: DataTypes.ENUM('admin', 'seller', 'buyer'),
+            allowNull: true
+
+        },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,

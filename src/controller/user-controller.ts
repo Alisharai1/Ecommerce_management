@@ -5,7 +5,7 @@ import { ValidationError } from 'yup';
 import { Request, Response, Router } from "express";
 import { UserNotFoundException } from '../exception/user-not-found';
 import { InvalidCredentialException } from '../exception/invalid-cred';
-
+import { AuthenticatedRequest, authenticateToken } from '../auth/authMiddleware';
 
 export class UserController {
     private readonly userService: IUserService;
@@ -17,13 +17,13 @@ export class UserController {
     static start(userService: IUserService) {
         const router = Router()
         const controller = new UserController(userService)
-
+        router.post('/login', controller.loginUser)
         router.post('/', controller.createUser)
+        router.use(authenticateToken)
         router.get('/', controller.getUsers)
         router.get('/:id', controller.getUser)
         router.delete('/:id', controller.deleteUser)
         router.put('/:id', controller.updateUser)
-        router.post('/login', controller.loginUser)
 
 
         return router
@@ -68,8 +68,12 @@ export class UserController {
         }
     }
 
-    private getUser = async (request: Request, res: Response) => {
+    private getUser = async (request: AuthenticatedRequest, res: Response) => {
         try {
+            console.log(request.userId, "JWT");
+            console.log(request.params.id, "PARAMS");
+            
+
             const input = GetUserByIdParamsSchema.validateSync(request.params, { abortEarly: false, strict: true })
 
             const user = await this.userService.getUserById(input.id)
